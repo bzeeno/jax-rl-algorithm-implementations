@@ -168,7 +168,11 @@ def train(num_episodes: int = 300, max_steps_per_episode: int = 500, update_targ
     # Initialize env
     random.seed(seed)
     np.random.seed(seed)
-    env = gym.make('CartPole-v1')
+    # env = gym.make('CartPole-v1')
+    env = gym.wrappers.RecordVideo(
+        gym.make("CartPole-v1", render_mode="rgb_array"),
+        video_folder="videos", episode_trigger=lambda e: e % 50 == 0,
+    )
     state_dim = env.observation_space.shape[0]
     action_dim = env.action_space.n
     # Initialize agent
